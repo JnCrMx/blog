@@ -1,58 +1,88 @@
 baseURL = 'https://blog.jcm.re/'
 languageCode = 'en-us'
 title = "JCM's Blog"
-theme = "hello-friend"
+theme = "hello-friend-ng"
+copyright = "This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License."
+
+enableRobotsTXT = true
+enableEmoji     = true
+disableRSS     = false
+disableSitemap = false
+disable404     = false
+
+[permalinks]
+  posts = "/posts/:year/:month/:title/"
+
+[author]
+  name = "JCM"
+
+[taxonomies]
+  tag      = "tags"
+  category = "categories"
+  series   = "series"
 
 [params]
-  # dir name of your blog content (default is `content/posts`).
-  # the list of set content will show up on your index page (baseurl).
-  contentTypeName = "posts"
+  dateform        = "Jan 2, 2006"
+  dateformShort   = "Jan 2"
+  dateformNum     = "2006-01-02"
+  dateformNumTime = "2006-01-02 15:04"
 
-  # OS theme is default when not provided, but you can force it to "light" or "dark"
-  defaultTheme = "dark"
+  homeSubtitle = "My simple personal blog"
 
-  # if you set this to 0, only submenu trigger will be visible
-  showMenuItems = 2
+  disableReadOtherPosts = false
+  enableSharingButtons = false
+  enableThemeToggle = true
 
-  # Show reading time in minutes for posts
-  showReadingTime = true
+  # Metadata mostly used in document's head
+  description = "My simple personal blog"
+  keywords = "homepage, blog"
+  images = [""]
 
-  # Show table of contents at the top of your posts (defaults to false)
-  # Alternatively, add this param to post front matter for specific posts
-  # toc = true
+  [params.footer]
+    rss = true
+    copyright = true
+    author = true
+    bottomText = [
+      "Powered by <a href=\"https://gohugo.io\">Hugo</a>",
+      "Check out the <a href=\"https://git.jcm.re/jcm/blog\">source</a>!"
+    ]
 
-  # Show full page content in RSS feed items
-  #(default is Description or Summary metadata in the front matter)
-  # rssFullText = true
+  [params.logo]
+    logoMark     = "$"
+    logoText     = "./blog"
+    logoHomeLink = "/"
+
+  [[params.social]]
+    name = "gitea"
+    url = "https://git.jcm.re/jcm"
+
+  [[params.social]]
+    name = "gpg"
+    url = "https://keys.openpgp.org/vks/v1/by-fingerprint/7B839F0DA64069DD7832BB802F536DE3E9EC3AD8"
+
+  [[params.social]]
+    name = "email"
+    url = "mailto:jcm@jcm.re"
+
+  [[params.social]]
+    name = "github"
+    url = "https://github.com/JnCrMx"
+
+  [[params.social]]
+    name = "youtube"
+    url = "https://www.youtube.com/channel/UC6dGpb5vTlGmfam60qgoPJQ"
 
 [languages]
   [languages.en]
-    title = "JCM's Blog"
-    subtitle = ""
-    keywords = ""
-    copyright = ""
-    menuMore = "Show more"
-    writtenBy = "Written by"
-    readMore = "Read more"
-    readOtherPosts = "Read other posts"
-    newerPosts = "Newer posts"
-    olderPosts = "Older posts"
-    minuteReadingTime = "min read"
-    dateFormatSingle = "2006-01-02"
-    dateFormatList = "2006-01-02"
-    # leave empty to disable, enter display text to enable
-    # lastModDisplay = ""
+    weight    = 1
+    copyright = '<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>'
 
-    [languages.en.params.logo]
-      logoText = "./blog"
-      logoHomeLink = "/"
-    # or
-    #
-    # path = "/img/your-example-logo.svg"
-    # alt = "Your example logo alt text"
-
-    [languages.en.menu]
-      [[languages.en.menu.main]]
-        identifier = "about"
-        name = "About"
-        url = "/about"
+[menu]
+  [[menu.main]]
+    identifier = "about"
+    name       = "About"
+    url        = "about/"
+  [[menu.main]]
+    identifier = "posts"
+    name       = "Posts"
+    url        = "posts/"
