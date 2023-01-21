@@ -18,7 +18,7 @@ steps:
     extended: true
     validate: false
 - name: publish
-  image: appleboy/drone-scp
+  image: appleboy/drone-scp:linux-arm64
   settings:
     host: openssh-server.files
     username: jcm
