@@ -44,6 +44,7 @@ disable404     = false
     author = true
     bottomText = [
       "Powered by <a href=\"https://gohugo.io\">Hugo</a>",
+      "Using a <a href=\"https://github.com/rhazdon/hugo-theme-hello-friend-ng\">cool theme</a> by <a href=\"https://github.com/rhazdon\">rhazdon</a>",
       "Check out the <a href=\"https://git.jcm.re/jcm/blog\">source</a>!"
     ]
 
