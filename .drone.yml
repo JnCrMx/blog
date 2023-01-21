@@ -17,3 +17,14 @@ steps:
     hugo_version: 0.109.0
     extended: true
     validate: false
+- name: publish
+  image: appleboy/drone-scp
+  settings:
+    host: openssh-server.files
+    username: jcm
+    password:
+      from_secret: ssh_password
+    port: 2222
+    target: /config/data/blog/
+    source: public/
+    strip_components: 1
