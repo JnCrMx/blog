@@ -14,8 +14,8 @@ steps:
     settings:
       host: openssh-server.files
       username: jcm
-      password:
-        from_secret: ssh_password
+      key:
+        from_secret: ssh_key
       port: 2222
       target: /config/data/blog/
       source: public/
