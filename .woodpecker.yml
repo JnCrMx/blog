@@ -10,7 +10,7 @@ steps:
       extended: true
       validate: false
   deploy:
-    image: appleboy/drone-scp
+    image: appleboy/drone-scp:1.6.11
     settings:
       host: openssh-server.files
       username: jcm
