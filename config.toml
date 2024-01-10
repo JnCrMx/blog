@@ -34,6 +34,7 @@ disable404     = false
   dateformNumTime = "2006-01-02 15:04"
 
   homeSubtitle = "My simple personal blog"
+  gitUrl = "https://git.jcm.re/jcm/blog/commit/"
 
   disableReadOtherPosts = false
   enableSharingButtons = false
