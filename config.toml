@@ -4,17 +4,23 @@ title = "JCM's Blog"
 theme = "hello-friend-ng"
 copyright = "This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License."
 
+paginate  = 10
+
+archetypeDir = "archetypes"
+contentDir   = "content"
+dataDir      = "data"
+layoutDir    = "layouts"
+publishDir   = "public"
+
 enableRobotsTXT = true
 enableEmoji     = true
+enableGitInfo   = true
 disableRSS     = false
 disableSitemap = false
 disable404     = false
 
 [permalinks]
   posts = "/posts/:year/:month/:title/"
-
-[author]
-  name = "JCM"
 
 [taxonomies]
   tag      = "tags"
@@ -37,6 +43,9 @@ disable404     = false
   description = "My simple personal blog"
   keywords = "homepage, blog"
   images = [""]
+
+  [params.author]
+    name = "JCM"
 
   [params.footer]
     rss = true
@@ -87,3 +96,11 @@ disable404     = false
     identifier = "posts"
     name       = "Posts"
     url        = "posts/"
+  [[menu.main]]
+    identifier = "projects"
+    name       = "Projects"
+    url        = "projects/"
+    [[menu.projects]]
+    identifier = "cheeky-imp"
+    name       = "CheekyImp"
+    url        = "projects/cheeky-imp"
