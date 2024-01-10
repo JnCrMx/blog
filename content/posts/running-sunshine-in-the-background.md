@@ -1,7 +1,7 @@
 ---
 title: "Running Sunshine in the Background"
 date: 2023-01-24T12:38:11+01:00
-draft: false
+draft: true
 ---
 
 [Sunshine](https://github.com/LizardByte/Sunshine) is an open source server implementation for NVIDIA's game streaming protocol.

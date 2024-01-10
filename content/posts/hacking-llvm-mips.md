@@ -1,7 +1,7 @@
 ---
 title: "Creating an LLVM MachineFunctionPass for a custom MIPS processor"
 date: 2023-01-21T17:26:00+01:00
-draft: false
+draft: true
 ---
 
 When working with a custom MIPS processor, in this case one that was written as part of a university lecture, one of the challenges I faced is having a very limited instruction set.
