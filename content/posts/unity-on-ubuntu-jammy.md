@@ -130,14 +130,14 @@ in the search bar of the Unity Launcher.
 
 We could also install other Scopes, but for this tutorial, we will stick with the calculator.
 
-### 6.3. Installing the *Unity Tweak Tool*
+### 6.3. Installing the Unity Tweak Tool
 
 To get access to additional settings, you can install the *Unity Tweak Tool* using the following command:
 ```bash
 sudo apt install unity-tweak-tool
 ```
 
-### 6.4. Installing *CompizConfig Settings Manager* (very advanced)
+### 6.4. Installing CompizConfig Settings Manager (very advanced)
 
 Since the Unity Desktop is based on *Compiz*, we can install the
 *CompizConfig Settings Manager* for a bunch of (very) advanced settings.
@@ -150,7 +150,7 @@ sudo apt install compizconfig-settings-manager
 
 ## 7. Finishing touches
 
-### 7.1. Switch to `lightdm`
+### 7.1. Switch to LightDM
 
 After verifying that everything works fine, we can switch from `gdm` to `lightdm` for
 the authentic Unity login experience.
