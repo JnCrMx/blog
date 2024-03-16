@@ -9,7 +9,7 @@ This is just a test to see if everything works!
 
 The source code of this blog is hosted on my personal [Gitea](https://gitea.io/) instance.
 I am using [HUGO](https://gohugo.io/) as a static site generator and it is hopefully gonna work out well for a self-hosted, simple blog.
-Also, the blog automatically built and deployed using [Drone](https://www.drone.io/).
+Also, the blog automatically built and deployed using [Woodpecker](https://woodpecker-ci.org/).
 All of the components are self-hosted on a little Kubernetes cluster (running on [MicroK8s](https://microk8s.io/)) on an [ODROID-M1](https://www.hardkernel.com/shop/odroid-m1-with-8gbyte-ram/) and two [ROCK 4](https://rockpi.org/rockpi4)s.
 I also use another ROCK 4 as a backup server and automatically sync the encrypted backups to a Hetzner storage box every week.
 
