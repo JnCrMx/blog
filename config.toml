@@ -37,7 +37,7 @@ disable404     = false
   gitUrl = "https://git.jcm.re/jcm/blog/commit/"
 
   disableReadOtherPosts = false
-  enableSharingButtons = false
+  enableSharingButtons = true
   enableThemeToggle = true
 
   # Metadata mostly used in document's head
@@ -78,6 +78,14 @@ disable404     = false
   [[params.social]]
     name = "github"
     url = "https://github.com/JnCrMx"
+
+  [[params.social]]
+    name = "mastodon"
+    url = "https://social.jcm.re/@jcm"
+
+  [[params.social]]
+    name = "matrix"
+    url = "https://matrix.to/#/@jcm:jcm.re"
 
   [[params.social]]
     name = "youtube"
