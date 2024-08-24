@@ -1,5 +1,5 @@
 ---
-title: "About"
+title: "About me"
 draft: false
-aliases: ["about-me","about-jcm","contact"]
+aliases: ["about", "about-me","about-jcm","contact"]
 ---
