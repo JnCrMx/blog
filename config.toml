@@ -4,8 +4,6 @@ title = "JCM's Blog"
 theme = "hello-friend-ng"
 copyright = "This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License."
 
-paginate  = 10
-
 archetypeDir = "archetypes"
 contentDir   = "content"
 dataDir      = "data"
@@ -18,6 +16,15 @@ enableGitInfo   = true
 disableRSS     = false
 disableSitemap = false
 disable404     = false
+
+[pagination]
+  disableAliases = false
+  pagerSize = 20
+  path = 'page'
+
+[services]
+  [services.rss]
+    limit = 100
 
 [permalinks]
   posts = "/posts/:year/:month/:title/"
