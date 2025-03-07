@@ -102,5 +102,5 @@ disable404     = false
 [menu]
   [[menu.main]]
     identifier = "website"
-    name = "Website"
+    name = "My Website"
     url = "https://jcm.re"

@@ -2,6 +2,13 @@
 title: "Extracting YouTube URLs from VRChat with Proton"
 date: 2024-04-26T23:43:04+02:00
 draft: false
+tags:
+  - vrchat
+  - game hacking
+  - proton
+  - wine
+  - linux
+  - youtube-dl
 ---
 
 Some VRChat worlds play awesome music, but don't tell you what it is.

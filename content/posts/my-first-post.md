@@ -2,6 +2,14 @@
 title: "My First Post"
 date: 2023-01-19T08:38:10+01:00
 draft: false
+tags:
+  - hello world
+  - introduction
+  - infrastructure
+  - kubernetes
+  - k8s
+  - microk8s
+  - sbc
 ---
 
 Hello World!

@@ -3,6 +3,12 @@ title: "How to install the Unity Desktop on Ubuntu 22.04"
 date: 2024-01-28T21:07:47+01:00
 draft: false
 toc: true
+tags:
+  - ubuntu
+  - ubuntu unity
+  - linux
+  - desktop environment
+  - tutorial
 ---
 
 > **TL;DR**
