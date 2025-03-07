@@ -71,52 +71,34 @@ disable404     = false
     logoHomeLink = "/"
 
   [[params.social]]
-    name = "gitea"
-    url = "https://git.jcm.re/jcm"
-
-  [[params.social]]
-    name = "gpg"
-    url = "https://keys.openpgp.org/vks/v1/by-fingerprint/7B839F0DA64069DD7832BB802F536DE3E9EC3AD8"
-
-  [[params.social]]
-    name = "email"
-    url = "mailto:jcm@jcm.re"
+    name = "web"
+    url = "https://jcm.re"
 
   [[params.social]]
     name = "github"
     url = "https://github.com/JnCrMx"
 
   [[params.social]]
+    name = "gitea"
+    url = "https://git.jcm.re/jcm"
+
+  [[params.social]]
+    name = "bluesky"
+    url = "https://bsky.app/profile/jcm.re"
+
+  [[params.social]]
     name = "mastodon"
     url = "https://social.jcm.re/@jcm"
 
   [[params.social]]
-    name = "matrix"
-    url = "https://matrix.to/#/@jcm:jcm.re"
+    name = "email"
+    url = "mailto:jcm@jcm.re"
 
   [[params.social]]
-    name = "youtube"
-    url = "https://www.youtube.com/channel/UC6dGpb5vTlGmfam60qgoPJQ"
+    name = "gpg"
+    url = "https://keys.openpgp.org/vks/v1/by-fingerprint/7B839F0DA64069DD7832BB802F536DE3E9EC3AD8"
 
 [languages]
   [languages.en]
     weight    = 1
     copyright = '<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>'
-
-[menu]
-  [[menu.main]]
-    identifier = "about"
-    name       = "About"
-    url        = "about/"
-  [[menu.main]]
-    identifier = "posts"
-    name       = "Posts"
-    url        = "posts/"
-  [[menu.main]]
-    identifier = "projects"
-    name       = "Projects"
-    url        = "projects/"
-    [[menu.projects]]
-    identifier = "cheeky-imp"
-    name       = "CheekyImp"
-    url        = "projects/cheeky-imp"
