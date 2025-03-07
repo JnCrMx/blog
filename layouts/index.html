@@ -1,0 +1,49 @@
+{{ define "body" }}
+    <body class="{{ if .Site.Params.backgroundImage }} background-image" style="background-image: url('{{ .Site.Params.backgroundImage }}');" {{ else }}"{{ end }}>
+{{ end }}
+
+{{ define "main" }}
+    <main>
+        <div>
+            {{ if .Site.Params.Portrait.Path }}
+               <img src="{{ .Site.Params.Portrait.Path }}" class="circle" alt="{{ .Site.Params.Portrait.Alt }}" style="max-width:{{ .Site.Params.Portrait.MaxWidth }}" />
+            {{ end }}
+
+            <h1>{{ .Site.Title }}</h1>
+
+            {{ partial "subtitle.html" . }}
+
+            {{- with .Site.Params.social }}
+                <div>
+                    {{ partial "social-icons.html" . }}
+                </div>
+            {{- end }}
+        </div>
+    </main>
+    <div class="posts">
+        {{ $paginator := .Paginate (where .Site.RegularPages "Section" "posts") }}
+        {{ range $paginator.Pages.GroupByDate "2006" }}
+        <div class="posts-group">
+            <div class="post-year">{{ .Key }}</div>
+
+            <ul class="posts-list">
+                {{ range .Pages }}
+                    <li class="post-item">
+                        <a href="{{.Permalink}}" class="post-item-inner">
+                            <span class="post-title">{{.Title}}</span>
+                            <span class="post-day">
+                                {{ if .Site.Params.dateformShort }}
+                                    {{ time.Format .Site.Params.dateformShort .Date }}
+                                {{ else }}
+                                    {{ time.Format "Jan 2" .Date }}
+                                {{ end }}
+                            </span>
+                        </a>
+                    </li>
+                {{ end }}
+            </ul>
+        </div>
+        {{ end }}
+        {{ partial "pagination-list.html" . }}
+    </div>
+{{ end }}
