@@ -40,7 +40,7 @@ disable404     = false
   dateformNum     = "2006-01-02"
   dateformNumTime = "2006-01-02 15:04"
 
-  homeSubtitle = "My simple personal blog"
+  homeSubtitle = "My simple personal blog."
   gitUrl = "https://git.jcm.re/jcm/blog/commit/"
 
   disableReadOtherPosts = false
@@ -71,15 +71,11 @@ disable404     = false
     logoHomeLink = "/"
 
   [[params.social]]
-    name = "web"
-    url = "https://jcm.re"
-
-  [[params.social]]
     name = "github"
     url = "https://github.com/JnCrMx"
 
   [[params.social]]
-    name = "gitea"
+    name = "git"
     url = "https://git.jcm.re/jcm"
 
   [[params.social]]
@@ -102,3 +98,9 @@ disable404     = false
   [languages.en]
     weight    = 1
     copyright = '<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>'
+
+[menu]
+  [[menu.main]]
+    identifier = "website"
+    name = "Website"
+    url = "https://jcm.re"
