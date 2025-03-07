@@ -4,7 +4,7 @@ steps:
     commands:
       - git submodule update --init --recursive
   build:
-    image: hugomods/hugo:std-git-0.145.0
+    image: hugomods/hugo:git-0.145.0
     commands:
       - hugo build
   deploy:
