@@ -230,6 +230,9 @@ const importObject = {
 
 And **BAM**! It works and we see "Hello World" printed to web console.
 
+You can check out a working example of this [here](/wasm-example-1.html).
+Just make sure to open the browser console, so you can see the "Hello World" being printed.
+
 Let's recap what exactly happens:
 1. JavaScript loads a WebAssembly module and provides it with our JavaScript `log` implementation
 2. JavaScript calls our exported C++ `_initialize` function, which takes care of calling global constructors

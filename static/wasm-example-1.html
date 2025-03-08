@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WASM Example 1</title>
+</head>
+<body>
+    <script>
+        async function init() {
+            const importObject = {
+                env: { // name of the default import module
+                    log: (message, len) => {
+                        // get a view of the WASM memory exactly where "message" points of length "len"
+                        const cArray = new Uint8Array(instance.exports.memory.buffer, message, len);
+                        const msgString = new TextDecoder().decode(cArray); // decode it
+                        console.log(msgString); // log it
+                    }
+                },
+                wasi_snapshot_preview1: {
+                    fd_close: () => { console.log("fd_close"); },
+                    fd_seek: () => { console.log("fd_seek"); },
+                    fd_read: () => { console.log("fd_read"); },
+                    fd_write: () => { console.log("fd_write"); },
+                    fd_fdstat_get: () => { console.log("fd_fdstat_get"); },
+                    fd_prestat_get: () => { console.log("fd_prestat_get"); },
+                    fd_prestat_dir_name: () => { console.log("fd_prestat_dir_name"); },
+                    environ_get: () => { console.log("environ_get"); },
+                    environ_sizes_get: () => { console.log("environ_sizes_get"); },
+                    proc_exit: () => { console.log("proc_exit"); },
+                }
+            }
+            const { instance } = await WebAssembly.instantiateStreaming(
+                fetch("./wasm-example-1.wasm"), importObject
+            );
+            instance.exports._initialize(); // calls the main() function
+            instance.exports.main(); // calls the main() function
+        }
+        init();
+    </script>
+    <h1 style="text-align: center; width: 100%;">Open the browser console to see the output.</h1>
+</body>
+</html>
