@@ -1,0 +1,23 @@
+steps:
+  submodules:
+    image: alpine/git
+    commands:
+      - git submodule update --init --recursive
+  build:
+    image: hugomods/hugo:git-0.145.0
+    commands:
+      - hugo build --baseURL https://blog.jcm.re/
+  deploy:
+    image: appleboy/drone-scp
+    settings:
+      host:
+        from_secret: ssh_host
+      username:
+        from_secret: ssh_user
+      key:
+        from_secret: ssh_key
+      port:
+        from_secret: ssh_port
+      target: /config/data/blog/
+      source: public/
+      strip_components: 1
