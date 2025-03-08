@@ -12,27 +12,27 @@ tags:
   - webdev
   - fun
 ---
-Heyo and welcome to my little journey of creating [my personal website](https://jcm.re) using mainly
+Heyo, and welcome to my little journey of creating [my personal website](https://jcm.re) using mainly
 (very) modern C++, WebAssembly and some minimal self-written JavaScript bindings.
 
 ## WHY?!
 Mainly, because I can ;)
 
-I know that I am making stuff needlessly complicated for myself (making an equivalent to the website purely in JavaScript
+I know that I am making stuff needlessly complicated for myself (building the equivalent website purely in JavaScript
 would most likely be faster and easier), but I love C++ (weird, I know) and I wanted to see how far I could get and
-how well JavaScript concepts would map to C++ (spoiler: relatively well actually).
-Also it gives me additional experience when it comes to working with modern C++ features such as modules, coroutines
+how well JavaScript concepts map to C++ (spoiler: relatively well actually).
+Also, it gives me additional experience when it comes to working with modern C++ features such as modules, coroutines
 and using `std::expected` instead of exceptions (which are unavailable in the toolchain I am using for WebAssembly).
 
 ## Running C++ in the browser
-First of all, how can one run C++ in the browser?
+First of all, how can we actually run C++ in the browser?
 It's easy: Compile it to WebAssembly, load it via JavaScript, run the `main()` function and let the C++ code take over.
 
-So, let's first of all begin with the toolchain and configuration we need to target WASM.
+So, let's start with the toolchain and configuration we need to target WASM.
 I decided to use the `clang` C++ compiler, which is based on LLVM and can therefore target lots of different backends,
 including WebAssembly.
 
-Let's give it try with a very simple "Hello World" program:
+Let's try it out with a very simple "Hello World" program:
 ```cpp
 #include <iostream>
 
@@ -45,8 +45,8 @@ On Ubuntu 24.04, I `apt install`ed the `clang-19` package and gave compiling it 
 ```bash
 clang++-19 -target wasm32 test.cpp -o test.wasm
 ```
-But no, `clang` complains, that is cannot find the `iostream` header.
-This is because by just targeting `wasm32` we do not have access to a standard library,
+But no, `clang` complains -- it can't find the `iostream` header.
+This is because by just targeting `wasm32` we do not have access to the standard library,
 and therefore cannot use `iostream` or any other headers from the standard library.
 
 To address this, we can make use of `libc++-wasi`, which is a version of the [`libc++` standard library](https://libcxx.llvm.org/)
@@ -78,7 +78,7 @@ wasm-ld-19: error: /usr/lib/wasm32-wasi/libc++.a(locale.cpp.o): undefined symbol
 clang++-19: error: linker command failed with exit code 1 (use -v to see invocation)
 ```
 As far as I understand, this is because of the limited exception support of WASI and sadly cannot be fixed
-by disabling exceptions (because the symbols are present in the precompiled, static standard library).
+by disabling exceptions (because the symbols are in the precompiled static standard library).
 
 To work around this, we can simply define our own exception support functions:
 ```cpp
@@ -95,9 +95,9 @@ void __cxa_throw(void *, void *, void (*) (void *)) { __builtin_trap(); }
 }
 ```
 Since I do not intend to support or use exceptions, I've decided to just trap the execution using
-my all time favorite `__builtin_trap()` should any exception to allocated or thrown.
+my all time favorite `__builtin_trap()` should any exception be allocated or thrown.
 
-Now our program compiles and we can think about how to load it using JavaScript.
+Now that our program compiles, we can focus on loading it using JavaScript.
 This is luckily rather simple and straightforward (for now) and can be done like this:
 ```js
 const { instance } = await WebAssembly.instantiateStreaming(
@@ -114,7 +114,7 @@ Uncaught (in promise) TypeError: WebAssembly.instantiate(): Import #0 "wasi_snap
 
 This happens because WASI specifies certain functions that need to be available for the WebAssembly module and hence must be passed
 using the `importObject`.
-Since I do not intend to use WASI (it is mostly means for regular programs) and instead my own interface, I just created stubs for
+Since I do not intend to use WASI (it is mostly meant for regular programs) and instead my own interface, I just created stubs for
 these required functions:
 ```js
 const importObject = {
@@ -137,9 +137,9 @@ Now, time for the next error:
 ```
 Uncaught (in promise) TypeError: instance.exports.main is not a function
 ```
-Looks like JavaScript fails to find the `main()` function.
+It looks like JavaScript can't find the `main()` function.
 This happens because we never specified that it should be exported to be availabe for JavaScript.
-We can fix this by adding a `clang::export_name("main")` attribute to our main function:
+We can fix this by adding a `clang::export_name("main")` attribute to our `main` function:
 ```cpp
 #include <iostream>
 
@@ -208,7 +208,7 @@ int main() {
   return 0;
 }
 ```
-We need to pass a char pointer and a length, since we cannot except JavaScript to know about
+We need to pass a char pointer and a length, since we cannot expect JavaScript to know
 how exactly a `std::string` works and therefore need to deal with raw pointers instead.
 
 In JavaScript we now need to implement the corresponding function:
@@ -231,22 +231,94 @@ const importObject = {
 And **BAM**! It works and we see "Hello World" printed to web console.
 
 Let's recap what exactly happens:
-1. JavaScript loads a WebAssembly module and provides it with our JS `log` implementation
+1. JavaScript loads a WebAssembly module and provides it with our JavaScript `log` implementation
 2. JavaScript calls our exported C++ `_initialize` function, which takes care of calling global constructors
 3. JavaScript calls our exported C++ `main` function
 4. The C++ `main` function calls the imported JavaScript `log` function and passes the pointer and length to our "Hello World" string
 5. The JavaScript `log` function accesses the memory of the WebAssembly module (which is exactly the memory we are accessing in C++)
    and creates a view of the region that contains our "Hello World" string using the pointer and length we passed to it
-6. The JavaScript `log` functions decodes this string and then logs it using `console.log`
+6. The JavaScript `log` function decodes this string and then logs it using `console.log`
 7. The JavaScript `log` function returns and gives control back to our C++ `main` function
 8. The C++ `main` function returns and gives control back to JavaScript
 
-We can now call any JavaScript code from C++ and build bindings for whatever feature we need!
+Now, we can call any JavaScript function from C++ and build bindings for whatever features we need!
 For example, we could trivially give full control to our C++ code by providing it with an `eval` function.
 
 ### Returning values
 
 ### Events and callbacks
+
+## Modules and CMake
+
+```
+.
+├── CMakeLists.txt
+├── public
+│   ├── index.html
+│   ├── style.css
+│   └── website.wasm -> ../build/website.wasm
+└── src
+    ├── c++support.cpp
+    ├── main.cpp
+    └── web.cppm
+```
+
+```cmake
+cmake_minimum_required(VERSION 3.28)
+
+project(website)
+
+set(CMAKE_CXX_SCAN_FOR_MODULES ON)
+
+set(CMAKE_SYSTEM_NAME WASI)
+set(CMAKE_SYSTEM_VERSION 1)
+set(CMAKE_SYSTEM_PROCESSOR wasm32)
+set(TARGET_TRIPLE wasm32-wasi)
+
+set(CMAKE_C_COMPILER_TARGET   ${TARGET_TRIPLE})
+set(CMAKE_CXX_COMPILER_TARGET ${TARGET_TRIPLE})
+
+set(CMAKE_EXECUTABLE_SUFFIX ".wasm")
+set(CMAKE_LINK_DEPENDS_USE_LINKER OFF)
+
+# Make the final module a bit smaller hopefully
+set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
+set(CMAKE_C_FLAGS_MINSIZEREL "-Oz")
+set(CMAKE_CXX_FLAGS_MINSIZEREL "-Oz")
+
+add_compile_options(-fno-rtti -fno-exceptions)
+
+set(SOURCES
+  src/main.cpp
+)
+set(MODULE_SOURCES
+  src/web.cppm
+  ...
+)
+
+add_executable(website ${SOURCES})
+target_sources(website PUBLIC FILE_SET CXX_MODULES BASE_DIRS src FILES ${MODULE_SOURCES})
+target_compile_features(website PRIVATE cxx_std_26)
+target_link_options(website PRIVATE -Wl,--no-entry)
+target_link_options(website PRIVATE -nostartfiles)
+```
+
+### `import std;`
+
+```cmake
+add_library(stdModule STATIC)
+target_sources(stdModule PUBLIC FILE_SET CXX_MODULES BASE_DIRS /usr/lib/llvm-19/share/libc++/v1/
+    FILES /usr/lib/llvm-19/share/libc++/v1/std.cppm)
+target_compile_features(stdModule PUBLIC cxx_std_26)
+# The standard library may use reserved identifiers
+target_compile_options(stdModule PRIVATE -Wno-reserved-identifier)
+# These two are not supported by WASI, so we just define their header guards, so they will be skipped
+target_compile_definitions(stdModule PRIVATE _LIBCPP_CSETJMP _LIBCPP_CSIGNAL)
+
+...
+
+target_link_libraries(website PRIVATE stdModule)
+```
 
 ## Rendering HTML in C++
 
