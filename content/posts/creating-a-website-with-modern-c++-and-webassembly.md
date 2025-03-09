@@ -174,7 +174,7 @@ which I called `_initialize`:
 extern "C" void __wasm_call_ctors();
 [[clang::export_name("_initialize")]]
 void _initialize() {
-    __wasm_call_ctors();
+  __wasm_call_ctors();
 }
 ```
 
@@ -248,6 +248,83 @@ Now, we can call any JavaScript function from C++ and build bindings for whateve
 For example, we could trivially give full control to our C++ code by providing it with an `eval` function.
 
 ### Returning values
+
+We know how to send strings from C++ to JavaScript, but how can we get them from JavaScript to C++?
+Being able to do this will be essential for interacting with the DOM and browser (e.g. for reading HTML attributes).
+
+In terms of built-in abilities, we can return a scalar value from a JavaScript function that gets called by C++, but that's about it.
+So, we could make a function `char* eval(const char* js, size_t len)` that returns a char pointer to a string containing whatever evaluating `js` returns.
+
+But how do we get the memory into which we can write this string? Well, we'll need some help from C++ and define and export a `char* new_string(size_t len)` function:
+```c++
+[[clang::export_name("new_string")]]
+char* new_string(size_t len) {
+  return new char[len];
+}
+
+[[clang::export_name("delete_string")]]
+void delete_string(char* ptr) { // needs to *also* be called from C++ to free a string returned from JavaScript
+  delete[] ptr;
+}
+```
+These functions now allow JavaScript to manage memory within our C++ context in a well-defined way.
+
+Inside our JavaScript part, we can now create some `copy_string` helper functions, which allocate a string and then copy the data into it:
+```js
+function copy_string(instance, s) {
+  const buffer = new TextEncoder().encode(s);
+  const str_ptr = instance.exports.new_string(buffer.length);
+  const data = new Uint8Array(instance.exports.memory.buffer, str_ptr, buffer.length);
+  data.set(buffer);
+  return [str_ptr, buffer.length];
+}
+function copy_string_null(instance, s) {
+  const buffer = new TextEncoder().encode(s);
+  const str_ptr = instance.exports.new_string(buffer.length+1);
+  const data = new Uint8Array(instance.exports.memory.buffer, str_ptr, buffer.length+1);
+  data.set(buffer);
+  data[buffer.length] = 0;
+  return str_ptr;
+}
+function delete_string(instance, ptr) {
+  instance.exports.delete_string(ptr);
+}
+```
+Note that we defined functions for both null-terminated and sized strings, with each of them having advantages and disadvantages:
+| Function | Advantages | Disadvantages |
+| -------- | ---------- | ------------- |
+| `copy_string_null` | - we can return it using only one value | - the string must not contain a null character (and is therefore unsuitable for binary data)<br>-the string is one byte longer than it needs to be (not a big deal) |
+| `copy_string` | - we can use it for any data, even binary | - we need to somehow return two values<br>- we either need an extra struct (so we can return one value, pointing to size and length) or only use it in callbacks (to which we can pass multiple values) |
+
+While I could have implemented some more fancy unified `string` struct (or maybe even abused `std::string_view`) that can be used to pass a sized string
+to C++ using a single value, I decided that the limitations are acceptable for my current use-case and just moved on.
+
+An example of returning a string looks like this:
+```cpp
+[[clang::import_name("eval")]] char* eval(const char* code, size_t len);
+
+std::string eval(std::string_view code) {
+  char* str_ptr = eval(code.data(), code.size());
+  std::string s{str_ptr};
+  delete_string(str_ptr);
+  return s;
+}
+```
+```js
+const importObject = {
+  env: {
+    eval: (ptr, len) => {
+      const res = eval(get_string(instance, ptr, len));
+      const str_ptr = copy_string_null(instance, res.toString());
+      return str_ptr;
+    },
+    // ...
+  },
+  wasi_snapshot_preview1: {
+    // ...
+  }
+}
+```
 
 ### Events and callbacks
 

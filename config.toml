@@ -104,3 +104,6 @@ disable404     = false
     identifier = "website"
     name = "My Website"
     url = "https://jcm.re"
+
+[markup.goldmark.renderer]
+  unsafe = true
